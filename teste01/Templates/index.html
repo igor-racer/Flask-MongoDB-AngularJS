@@ -1,0 +1,91 @@
+
+<html lang="en">
+<head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+        <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+</head>
+
+<body ng-app="myApp"><center>
+<div ng-controller="registerController">
+    
+<form  action="javascript:void(0);">
+               <h3>Formulario de Cadastro</h3>
+
+
+
+                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" ng-model="name" name="name" id="nom">
+                        <label class="mdl-textfield__label" for="nom">Nome</label>
+                      </div>
+
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" ng-model="email" name="email" id="ema">
+                        <label class="mdl-textfield__label" for="ema">Email</label>
+                      </div>
+
+
+
+                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="fon">
+                            <label class="mdl-textfield__label" for="fon">Telefone</label>
+                            <span class="mdl-textfield__error">Digite apenas numeros!</span>
+                          </div>
+
+<br>
+                <button ng-click='Register()' style='margin-top:15px'>Register</button>
+            </form>
+             
+
+</div>
+<script type="text/javascript">
+        
+var app = angular.module('myApp', []);
+app.controller('registerController', function($scope, $http) {
+
+ $scope.Register = function() {
+     var nome = $scope.name
+     var email = $scope.email
+     var fone = $scope.phone
+     var url = 'http://127.0.0.1:5000/registros', data = {'nome': nome,'email': email,'telefone': fone}, config='contenttype';
+    $http.post(url, data, config)
+    .success(function(response) 
+    {
+        $scope.usersData = response;
+        
+        location.reload();
+    });
+
+};
+  });
+
+  </script>
+
+  <hr><br>
+
+
+
+
+  <table class="mdl-data-table mdl-js-data-table">
+        <thead>
+          <tr>
+            <th class="mdl-data-table__cell--non-numeric"><center>NOME</th>
+            <th class="mdl-data-table__cell--non-numeric"><center>E-MAIL</th>
+            <th><center>TELEFONE</th>
+          </tr>
+        </thead>
+        <tbody>{% for item in regs %}
+          <tr>
+                
+               <th><center>{{item.nome}} </th>
+               <th> <center>{{item.email}} </th>
+                <th><center>{{item.telefone}} </th>
+                
+
+          </tr>{% endfor %}{{response}}
+        </tbody>
+      </table>
+
+</body>
+</html>
